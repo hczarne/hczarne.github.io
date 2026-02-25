@@ -1,39 +1,556 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Henry Czarnecki | Engineering Portfolio</title>
-    <meta charset="UTF-8">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            max-width: 800px;
-            line-height: 1.6;
-        }
-        h1 { margin-bottom: 5px; }
-        a.button {
-            display: inline-block;
-            padding: 12px 20px;
-            background: black;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Henry Czarnecki | Engineering Portfolio</title>
+  <meta name="description" content="Engineering portfolio of Henry Czarnecki — space systems, mechanical design, and hardware development." />
+
+  <style>
+    :root{
+      --bg: #0b0f17;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.08);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --subtle: rgba(255,255,255,0.12);
+      --accent: #7dd3fc; /* light cyan */
+      --accent2: #a78bfa; /* soft purple */
+      --radius: 16px;
+      --shadow: 0 12px 30px rgba(0,0,0,0.35);
+      --max: 980px;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 15% 10%, rgba(125,211,252,0.18), transparent 55%),
+        radial-gradient(900px 500px at 85% 15%, rgba(167,139,250,0.16), transparent 50%),
+        linear-gradient(180deg, #070a10 0%, #0b0f17 55%, #070a10 100%);
+      line-height: 1.55;
+    }
+
+    a{ color: inherit; }
+    a:hover{ opacity: 0.9; }
+
+    .container{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    /* Top nav */
+    .topbar{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 10px 0 24px;
+    }
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo{
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(125,211,252,0.95), rgba(167,139,250,0.95));
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+    .brand .name{
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .navlinks{
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .navlinks a{
+      text-decoration: none;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+    .navlinks a:hover{
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+    }
+
+    /* Hero */
+    .hero{
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 6px;
+    }
+    .hero-card{
+      background: var(--panel);
+      border: 1px solid var(--subtle);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-card::before{
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, rgba(125,211,252,0.18), rgba(167,139,250,0.14));
+      filter: blur(20px);
+      z-index: 0;
+    }
+    .hero-card > *{ position: relative; z-index: 1; }
+
+    h1{
+      margin: 0 0 8px;
+      font-size: 38px;
+      line-height: 1.12;
+      letter-spacing: -0.6px;
+    }
+    .tagline{
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .cta-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      transition: transform 0.12s ease, background 0.12s ease;
+      min-height: 42px;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.09); }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(125,211,252,0.95), rgba(167,139,250,0.90));
+      border: none;
+      color: #050812;
+    }
+    .btn.primary:hover{ background: linear-gradient(135deg, rgba(125,211,252,1), rgba(167,139,250,1)); }
+
+    .mini{
+      display: grid;
+      gap: 12px;
+    }
+    .mini .panel{
+      background: var(--panel);
+      border: 1px solid var(--subtle);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .kicker{
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 11px;
+      color: rgba(255,255,255,0.58);
+      margin: 0 0 8px;
+    }
+    .about{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14.5px;
+    }
+    .facts{
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .fact{
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .dot{
+      width: 10px; height: 10px;
+      margin-top: 5px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(125,211,252,0.12);
+      flex: 0 0 auto;
+    }
+
+    /* Sections */
+    .section{
+      margin-top: 22px;
+    }
+    .section-header{
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 24px 0 10px;
+    }
+    .section-header h2{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.2px;
+    }
+    .section-header .hint{
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--subtle);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+      display: flex;
+      flex-direction: column;
+      min-height: 260px;
+    }
+    .thumb{
+      aspect-ratio: 16 / 10;
+      background:
+        linear-gradient(135deg, rgba(125,211,252,0.14), rgba(167,139,250,0.10)),
+        rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.55);
+      font-size: 13px;
+      padding: 10px;
+    }
+    /* If you add real images, this makes them fit nicely */
+    .thumb img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card-body{
+      padding: 14px 14px 16px;
+      display: grid;
+      gap: 8px;
+    }
+    .card-title{
+      margin: 0;
+      font-size: 15.5px;
+      letter-spacing: -0.2px;
+    }
+    .card-desc{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+    .tags{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .tag{
+      font-size: 12px;
+      color: rgba(255,255,255,0.74);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 5px 8px;
+      border-radius: 999px;
+    }
+    .card-actions{
+      margin-top: 6px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .link{
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+    }
+    .link:hover{ background: rgba(255,255,255,0.08); }
+
+    /* Contact */
+    .contact{
+      margin-top: 20px;
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--subtle);
+      border-radius: var(--radius);
+      display: grid;
+      gap: 10px;
+    }
+    .contact-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .contact p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .contact a{
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+    }
+    .contact a:hover{
+      border-bottom-color: rgba(255,255,255,0.6);
+    }
+
+    footer{
+      margin-top: 26px;
+      color: rgba(255,255,255,0.55);
+      font-size: 12.5px;
+      text-align: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+      h1{ font-size: 34px; }
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px){
+      .grid{ grid-template-columns: 1fr; }
+      .navlinks{ display: none; }
+      .container{ padding-top: 18px; }
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .btn{ transition: none; }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="container">
 
-<h1>Henry Czarnecki</h1>
-<p>Physics & Astrophysics Student — Space Systems, Mechanical Design, and Hardware Development</p>
+    <!-- Top bar -->
+    <div class="topbar">
+      <a class="brand" href="#">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="name">Henry Czarnecki</div>
+      </a>
 
-<p>
-<a class="button" href="Henry C Engineering Portfolio.pdf" target="Henry C Engineering Portfolio.pdf">
-View Engineering Portfolio (PDF)
-</a>
-</p>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#projects">Projects</a>
+        <a href="#portfolio">Portfolio PDF</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
 
-<p>Email: henryczarne@email.com</p>
-<p>LinkedIn: <a href="#">www.linkedin.com/in/henry-czarnecki-11759829b</a></p>
+    <!-- Hero -->
+    <div class="hero">
+      <section class="hero-card" aria-label="Introduction">
+        <h1>Engineering Portfolio</h1>
+        <p class="tagline">
+          Physics &amp; Astrophysics Student — Space Systems, Mechanical Design, and Hardware Development
+        </p>
 
+        <div class="cta-row" id="portfolio">
+          <!-- IMPORTANT: Use target="_blank" and rel for safety and correct behavior -->
+          <a class="btn primary" href="Henry%20C%20Engineering%20Portfolio.pdf" target="_blank" rel="noopener noreferrer">
+            View Portfolio (PDF)
+          </a>
+
+          <!-- Optional: add a resume link if you want -->
+          <!-- <a class="btn" href="Henry%20Czarnecki%20Resume.pdf" target="_blank" rel="noopener noreferrer">View Resume</a> -->
+
+          <a class="btn" href="#projects">See Projects</a>
+        </div>
+      </section>
+
+      <aside class="mini" aria-label="About">
+        <div class="panel">
+          <p class="kicker">About</p>
+          <p class="about">
+            I build flight-adjacent hardware and analysis tools for small spacecraft: structural design,
+            mechanisms, integration, and test planning. I like high-leverage work—tight schedules, hard constraints,
+            and designs you can actually manufacture and verify.
+          </p>
+
+          <div class="facts" role="list">
+            <div class="fact" role="listitem">
+              <span class="dot" aria-hidden="true"></span>
+              <span><strong>Focus:</strong> structures, mechanisms, integration &amp; verification</span>
+            </div>
+            <div class="fact" role="listitem">
+              <span class="dot" aria-hidden="true"></span>
+              <span><strong>Tools:</strong> CAD/FEA, test planning, documentation, iteration</span>
+            </div>
+            <div class="fact" role="listitem">
+              <span class="dot" aria-hidden="true"></span>
+              <span><strong>Interests:</strong> CubeSats, optical payload alignment, thermal-vac workflows</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <p class="kicker">Quick Links</p>
+          <div class="cta-row">
+            <!-- Fix: make LinkedIn actually clickable and not href="#" -->
+            <a class="btn" href="https://www.linkedin.com/in/henry-czarnecki-11759829b" target="_blank" rel="noopener noreferrer">
+              LinkedIn
+            </a>
+            <!-- Optional: GitHub is this site, but you can point to a separate profile if you have one -->
+            <!-- <a class="btn" href="https://github.com/hczarne" target="_blank" rel="noopener noreferrer">GitHub</a> -->
+            <a class="btn" href="#contact">Email</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Projects -->
+    <section class="section" id="projects">
+      <div class="section-header">
+        <h2>Selected Work</h2>
+        <p class="hint">Add images and 2–3 bullet-level results per project.</p>
+      </div>
+
+      <div class="grid">
+        <!-- Project Card 1 -->
+        <article class="card">
+          <div class="thumb">
+            <!-- Replace this placeholder with an image:
+                 1) add /assets/cubesat.jpg to your repo
+                 2) uncomment the <img> and remove the placeholder text
+            -->
+            <-- <img src="assets/IMG_4003.webp" alt="3U CubeSat structure and deployment mechanisms"> -->
+            Image placeholder (add assets/project1.jpg)
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">3U CubeSat Structures &amp; Verification</h3>
+            <p class="card-desc">
+              Structural design and margin verification against launch &amp; deployer constraints; integration-ready documentation.
+            </p>
+            <div class="tags" aria-label="Tags">
+              <span class="tag">Structures</span>
+              <span class="tag">Loads</span>
+              <span class="tag">MoS</span>
+              <span class="tag">Test Planning</span>
+            </div>
+            <div class="card-actions">
+              <a class="link" href="Henry%20C%20Engineering%20Portfolio.pdf#page=1" target="_blank" rel="noopener noreferrer">
+                View in PDF
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project Card 2 -->
+        <article class="card">
+          <div class="thumb">
+            <-- <img src="assets/IMG_2879 (1).webp" alt="Optomechanical alignment mechanism concept"> -->
+            Image placeholder (add assets/project2.jpg)
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Optomechanical Alignment Mechanism</h3>
+            <p class="card-desc">
+              Tolerance-driven redesign under tight schedule; alignment and locking features for repeatable integration.
+            </p>
+            <div class="tags">
+              <span class="tag">Mechanisms</span>
+              <span class="tag">Tolerance Stackup</span>
+              <span class="tag">Integration</span>
+            </div>
+            <div class="card-actions">
+              <a class="link" href="Henry%20C%20Engineering%20Portfolio.pdf#page=1" target="_blank" rel="noopener noreferrer">
+                View in PDF
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project Card 3 -->
+        <article class="card">
+          <div class="thumb">
+            <!-- <img src="assets/tvac.jpg" alt="Thermal vacuum chamber setup concept"> -->
+            Image placeholder (add assets/project3.jpg)
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Thermal-Vac Integration Concepts</h3>
+            <p class="card-desc">
+              Fixture and setup considerations for component-level and assembly-level verification; practical test constraints.
+            </p>
+            <div class="tags">
+              <span class="tag">TVAC</span>
+              <span class="tag">Fixtures</span>
+              <span class="tag">Verification</span>
+            </div>
+            <div class="card-actions">
+              <a class="link" href="Henry%20C%20Engineering%20Portfolio.pdf" target="_blank" rel="noopener noreferrer">
+                Related PDF
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact" aria-label="Contact">
+      <div class="contact-row">
+        <div>
+          <p><strong>Contact</strong></p>
+          <p>Email: <a href="mailto:henryczarne@email.com">henryczarne@email.com</a></p>
+          <p>LinkedIn: <a href="https://www.linkedin.com/in/henry-czarnecki-11759829b" target="_blank" rel="noopener noreferrer">
+            linkedin.com/in/henry-czarnecki-11759829b
+          </a></p>
+        </div>
+        <div class="cta-row">
+          <a class="btn primary" href="mailto:henryczarne@email.com">Email Me</a>
+          <a class="btn" href="Henry%20C%20Engineering%20Portfolio.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Henry Czarnecki · Built with GitHub Pages
+    </footer>
+
+  </div>
+
+  <script>
+    // tiny quality-of-life touch
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
