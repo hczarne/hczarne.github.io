@@ -204,9 +204,26 @@
 
 .hero-content {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 20px;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+        "text buttons"
+        "image image";
+    gap: 18px;
     align-items: center;
+}
+
+/* areas */
+.hero-text { grid-area: text; }
+.hero-buttons {
+    grid-area: buttons;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+.hero-image {
+    grid-area: image;
+    margin-top: 6px;
 }
 
 .hero-image {
@@ -419,30 +436,32 @@
       <section class="hero-card" aria-label="Introduction">
 <div class="hero-content">
 
-  <!-- LEFT SIDE: TEXT -->
-  <div>
+  <!-- TEXT -->
+  <div class="hero-text">
     <h1>Engineering Portfolio</h1>
 
     <p class="tagline">
-      Physics & Astrophysics Student — Space Systems, Mechanical Design,
-      and Hardware Development
+      Physics & Astrophysics Student — Space Systems,
+      Mechanical Design, and Hardware Development
     </p>
-
-    <div class="cta-row">
-      <a class="btn primary"
-         href="Henry%20C%20Engineering%20Portfolio.pdf"
-         target="_blank"
-         rel="noopener noreferrer">
-         View Portfolio (PDF)
-      </a>
-
-      <a class="btn" href="#projects">See Projects</a>
-    </div>
   </div>
 
-  <!-- RIGHT SIDE: IMAGE -->
+  <!-- BUTTONS (RIGHT SIDE) -->
+  <div class="hero-buttons">
+    <a class="btn primary"
+       href="Henry%20C%20Engineering%20Portfolio.pdf"
+       target="_blank"
+       rel="noopener noreferrer">
+       View Portfolio (PDF)
+    </a>
+
+    <a class="btn" href="#projects">
+      See Projects
+    </a>
+  </div>
+
+  <!-- IMAGE (FULL WIDTH BELOW) -->
   <div class="hero-image">
-      <!-- Replace with your actual image -->
       <img src="assets/IMG_2879 (1).webp"
            alt="Presenting structural design of payload at Intermediate Design Review">
 
